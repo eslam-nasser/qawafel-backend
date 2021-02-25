@@ -14,18 +14,9 @@ class VendorController extends Controller
      */
     public function index()
     {
-        //
+        return Vendor::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +26,7 @@ class VendorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Vendor::create($request->all());
     }
 
     /**
@@ -46,18 +37,7 @@ class VendorController extends Controller
      */
     public function show(Vendor $vendor)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Vendor  $vendor
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Vendor $vendor)
-    {
-        //
+        return Vendor::find($vendor);
     }
 
     /**
@@ -69,7 +49,9 @@ class VendorController extends Controller
      */
     public function update(Request $request, Vendor $vendor)
     {
-        //
+        $v = Vendor::find($vendor);
+        $v->update($request->all());
+        return $v;
     }
 
     /**
@@ -80,6 +62,6 @@ class VendorController extends Controller
      */
     public function destroy(Vendor $vendor)
     {
-        //
+        return Vendor::destroy($vendor);
     }
 }
