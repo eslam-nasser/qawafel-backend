@@ -23,9 +23,9 @@ Route::group([
     'prefix' => 'auth'
 ], function ($router) {
 
-    Route::post('login', [ 'as' => 'login', 'uses' => 'AuthController@login']);
+    Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
+    // Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
 
     // POS register 
@@ -48,4 +48,5 @@ Route::group([
 });
 
 // Resources
-// Route::resource('users', 'UserConstroller');
+Route::resource('products', 'ProductController');
+Route::resource('vendors', 'VendorController');
