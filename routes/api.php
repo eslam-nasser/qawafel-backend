@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +15,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+
+// Auth routes
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+
+    Route::post('login', [ 'as' => 'login', 'uses' => 'AuthController@login']);
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
+    // POS register 
+    Route::post('/register' , function(){
+        $req_data = request()->only([
+            "firstname",
+            "lastname",
+            "email",
+            "phone",
+            "lang",
+        ]);
+
+        $req_data['password'] = Hash::make(request()->input('password'));
+
+        $user = App\User::create($req_data);
+        
+        return $user;
+    });
+
 });
 
-// Route->post('/login' , function(Request $request){
-//     $cred = 
-//     $token = auth()->attemp($cred);
-
-//     return $token;
-// });
+// Resources
+// Route::resource('users', 'UserConstroller');
