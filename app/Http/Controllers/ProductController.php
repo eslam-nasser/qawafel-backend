@@ -14,18 +14,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return Product::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +26,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Product::create($request->all());
     }
 
     /**
@@ -46,18 +37,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
-        //
+        $p = Product::find($product)->first();
+        $p['vendor'] = $p->vendor;
+        return $p;
     }
 
     /**
@@ -69,7 +51,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $p = Product::find($product);
+        $p->update($request->all());
+        return $p;
     }
 
     /**
@@ -80,6 +64,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        return Product::destroy($product);
     }
 }
