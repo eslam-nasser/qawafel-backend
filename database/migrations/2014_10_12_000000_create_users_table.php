@@ -22,7 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
 
             $table->integer('phone');
-            $table->enum('user_type', ['admin', 'pos', 'vendor_admin'])->default('pos');
+            $table->foreignId('role_id')->default(3); // "3" is the id for "pos" role, please check the Roles table seeder
+            // $table->enum('user_type', ['admin', 'pos', 'vendor_admin'])->default('pos');
             $table->string('lang')->default('ar');
             $table->boolean('active')->default(false);
 

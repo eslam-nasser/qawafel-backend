@@ -48,5 +48,10 @@ Route::group([
 });
 
 // Resources
-Route::resource('products', 'ProductController');
-Route::resource('vendors', 'VendorController');
+Route::group([
+	'middleware' => ['auth', 'roles'],
+	'roles' => ['admin', 'pos']
+], function () {
+    Route::resource('products', 'ProductController');
+    Route::resource('vendors', 'VendorController');
+});
