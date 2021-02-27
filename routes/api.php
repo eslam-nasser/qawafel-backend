@@ -76,6 +76,7 @@ Route::group([
         $req_data['role_id'] = $role->id;
         // saving user to db
         $user = App\User::create($req_data);
+        
         return $user;
     });
 
@@ -88,4 +89,5 @@ Route::group([
 ], function () {
     Route::resource('products', 'ProductController');
     Route::resource('vendors', 'VendorController');
+    Route::resource('categories', 'CategoryController');
 });
