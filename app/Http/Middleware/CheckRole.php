@@ -1,6 +1,6 @@
 <?php namespace App\Http\Middleware;
 
-// First copy this file into your middleware directoy
+// SOURCE : https://gist.github.com/amochohan/8cb599ee5dc0af5f4246
 
 use Closure;
 
