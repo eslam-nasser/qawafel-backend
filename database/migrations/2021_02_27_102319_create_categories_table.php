@@ -6,12 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCategoriesTable extends Migration
 {
-    protected $fillable = [
-        'name',
-        'image',
-        'parent'
-    ];
-
     /**
      * Run the migrations.
      *
@@ -23,8 +17,8 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('image')->default('https://i.imgur.com/GIJjSA8.jpg');
-            // $table->integer('parent')->unsigned()->nullable()->after('id');
-            $table->foreign('parent')->references('id')->on('categories');
+            // $table->integer('parent')->unsigned()->nullable();
+            $table->foreign('parent')->nullable()->references('id')->on('categories');
             $table->timestamps();
         });
     }

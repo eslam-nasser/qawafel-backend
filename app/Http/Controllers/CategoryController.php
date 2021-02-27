@@ -14,7 +14,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::all();
+        $data = Category::whereNull('parent')->with('children')->get();
+        // $data = Category::with('parent')->get();
+        
+        return $data;
     }
 
     /**
