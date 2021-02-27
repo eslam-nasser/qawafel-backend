@@ -28,7 +28,7 @@ Route::group([
     // Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
 
-    // POS register 
+    // POS & VA register 
     Route::post('/register' , function(){
         $req_data = request()->only([
             "firstname",
@@ -36,12 +36,46 @@ Route::group([
             "email",
             "phone",
             "lang",
+            "role"
         ]);
-
+        // hashing user's password
         $req_data['password'] = Hash::make(request()->input('password'));
-
+        // getting user role 
+        $role = App\Role::where('name', request()->input('role'))->first();
+        if(
+            (
+                request()->input('role') != 'pos' && 
+                request()->input('role') != 'vendor_admin'
+            ) || 
+            !$role
+        ){
+            return [
+                'error' => 'Only roles allowed are (pos, vendor_admin)!'
+            ];
+        }
+        $req_data['role_id'] = $role->id;
+        // saving user to db
         $user = App\User::create($req_data);
         
+        return $user;
+    });
+
+    // Admins register
+    Route::post('/register-admin' , function(){
+        $req_data = request()->only([
+            "firstname",
+            "lastname",
+            "email",
+            "phone",
+            "lang",
+        ]);
+        // hashing user's password
+        $req_data['password'] = Hash::make(request()->input('password'));
+        // getting user role 
+        $role = App\Role::where('name', 'admin')->first();
+        $req_data['role_id'] = $role->id;
+        // saving user to db
+        $user = App\User::create($req_data);
         return $user;
     });
 
