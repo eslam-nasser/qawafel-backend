@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -26,7 +27,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        return Product::create($request->all());
+        $new_product = Product::create($request->all());
+        // creating the product + category relation ship
+        foreach($request->input('categories') as $id){
+            DB::table('category_product')->insertOrIgnore([
+                'product_id' => $new_product->id,
+                'category_id' => $id
+            ]);
+        }
+
+        return $new_product;
     }
 
     /**
