@@ -10,12 +10,9 @@ use Illuminate\Http\Request;
 class CartController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Shared method for getting the cart content and calculating the totals
      */
-    public function index()
-    {
+    public function get_cart_content(){
         // get user
         $user = auth()->user();
         // check if this user has a cart
@@ -40,6 +37,16 @@ class CartController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return $this->get_cart_content();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -52,18 +59,8 @@ class CartController extends Controller
             'item_id' => 'required',
             'item_quantity' => 'required|integer'
         ]);
-        // get user
-        $user = auth()->user();
-        // check if this user has a cart
-        $cart = Cart::where('user_id', $user->id)->get();
-        if(count($cart) === 0){
-            // this user has no cart, so we will create a new one for him
-            $cart = Cart::create([
-                'user_id' => $user->id
-            ]);
-        }else{
-            $cart = $cart->first();
-        }
+        
+        $cart = $this->get_cart_content();
 
         // check if this item already has a CartItem
         $cart_item = CartItem::where('cart_id', $cart->id)->where('product_id', $req['item_id'])->get();
@@ -81,14 +78,8 @@ class CartController extends Controller
             $cart_item->save();
         }
 
-        // populate the product object in each cart item
-        $items = $cart->items;
-        foreach($items as $key => $item){
-            $items[$key]['product'] = Product::where('id', $item->product_id)->first();
-        }
-        $cart['items'] = $items;
 
-        return $cart;
+        return $this->get_cart_content();
     }
 
     /**
