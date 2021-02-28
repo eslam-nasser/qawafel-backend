@@ -87,8 +87,11 @@ Route::group([
 	'middleware' => ['auth', 'roles'],
 	'roles' => ['admin', 'pos']
 ], function () {
-    Route::resource('products', 'ProductController');
-    Route::resource('vendors', 'VendorController');
-    Route::resource('categories', 'CategoryController');
-    Route::resource('cart', 'CartController');
+    Route::apiResource('products', 'ProductController');
+    Route::apiResource('vendors', 'VendorController');
+    Route::apiResource('categories', 'CategoryController');
+    Route::apiResource('cart', 'CartController')->only([
+        'index', 'store'
+    ]);
+    Route::delete('/cart', 'CartController@destroy');
 });

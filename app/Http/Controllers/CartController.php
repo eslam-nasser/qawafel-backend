@@ -65,7 +65,7 @@ class CartController extends Controller
     {
         // validate request
         $req = $request->validate([
-            'item_id' => 'required',
+            'item_id' => 'required|integer',
             'item_quantity' => 'required|integer'
         ]);
         
@@ -92,36 +92,24 @@ class CartController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cart $cart)
+    public function destroy(Request $request)
     {
-        //
+        // validate request
+        $req = $request->validate([
+            'item_id' => 'required|integer'
+        ]);
+        $cart = $this->get_cart_content();
+        $cart_item = CartItem::where('product_id', $req['item_id'])->where('cart_id', $cart->id)->first();
+
+        if($cart_item && $cart_item->id){
+            $cart_item->delete();
+        }
+
+        return $this->get_cart_content();
     }
 }
