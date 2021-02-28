@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\CartItem;
+use App\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -14,17 +16,27 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
-    }
+        // get user
+        $user = auth()->user();
+        // check if this user has a cart
+        $cart = Cart::where('user_id', $user->id)->get();
+        if(count($cart) === 0){
+            // this user has no cart, so we will create a new one for him
+            $cart = Cart::create([
+                'user_id' => $user->id
+            ]);
+        }else{
+            $cart = $cart->first();
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        // populate the product object in each cart item
+        $items = $cart->items;
+        foreach($items as $key => $item){
+            $items[$key]['product'] = Product::where('id', $item->product_id)->first();
+        }
+        $cart['items'] = $items;
+
+        return $cart;
     }
 
     /**
@@ -35,7 +47,48 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validate request
+        $req = $request->validate([
+            'item_id' => 'required',
+            'item_quantity' => 'required|integer'
+        ]);
+        // get user
+        $user = auth()->user();
+        // check if this user has a cart
+        $cart = Cart::where('user_id', $user->id)->get();
+        if(count($cart) === 0){
+            // this user has no cart, so we will create a new one for him
+            $cart = Cart::create([
+                'user_id' => $user->id
+            ]);
+        }else{
+            $cart = $cart->first();
+        }
+
+        // check if this item already has a CartItem
+        $cart_item = CartItem::where('cart_id', $cart->id)->where('product_id', $req['item_id'])->get();
+        if(count($cart_item) === 0) {
+            // its the first time this user add this product to this cart
+            $cart_item = CartItem::create([
+                'cart_id' => $cart->id,
+                'product_id' => $req['item_id'],
+                'quantity' => $req['item_quantity'],
+            ]);
+        } else {
+            // this product was added before to cart, we just need to update the quantity
+            $cart_item = $cart_item->first();
+            $cart_item->quantity = $req['item_quantity'];
+            $cart_item->save();
+        }
+
+        // populate the product object in each cart item
+        $items = $cart->items;
+        foreach($items as $key => $item){
+            $items[$key]['product'] = Product::where('id', $item->product_id)->first();
+        }
+        $cart['items'] = $items;
+
+        return $cart;
     }
 
     /**
@@ -45,17 +98,6 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cart $cart)
     {
         //
     }

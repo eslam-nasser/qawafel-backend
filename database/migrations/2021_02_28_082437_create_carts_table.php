@@ -17,13 +17,13 @@ class CreateCartsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('mobile');
-            $table->string('email');
-            $table->string('address1');
-            $table->string('address2');
-            $table->string('city');
-            $table->string('province');
-            $table->string('country');
+            // $table->string('mobile');
+            // $table->string('email');
+            // $table->string('address1');
+            // $table->string('address2');
+            // $table->string('city');
+            // $table->string('province');
+            // $table->string('country');
             $table->timestamps();
         });
     }

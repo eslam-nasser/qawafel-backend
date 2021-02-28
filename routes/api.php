@@ -90,4 +90,5 @@ Route::group([
     Route::resource('products', 'ProductController');
     Route::resource('vendors', 'VendorController');
     Route::resource('categories', 'CategoryController');
+    Route::resource('cart', 'CartController');
 });
