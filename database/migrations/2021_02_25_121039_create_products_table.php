@@ -18,7 +18,8 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->longText('description');
             $table->float('price');
-            $table->foreignId('vendor_id');
+            $table->unsignedBigInteger('vendor_id');
+            $table->foreign('vendor_id')->references('id')->on('vendors');;
             $table->boolean('status')->default(true);
 
             $table->timestamps();

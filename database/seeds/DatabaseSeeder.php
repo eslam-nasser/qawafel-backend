@@ -22,8 +22,6 @@ class DatabaseSeeder extends Seeder
             exit('Bruh! its production!');
         }
 
-        DB::table('roles')->truncate();
-
         Role::create([
             'id'            => 1,
             'name'          => 'root',

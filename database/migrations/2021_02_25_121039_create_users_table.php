@@ -20,10 +20,11 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-
             $table->integer('phone');
-            $table->foreignId('role_id')->default(3); // "3" is the id for "pos" role, please check the Roles table seeder
-            // $table->enum('user_type', ['admin', 'pos', 'vendor_admin'])->default('pos');
+
+            $table->unsignedBigInteger('role_id')->default(3);// "3" is the id for "pos" role, please check the Roles table seeder
+            $table->foreign('role_id')->references('id')->on('roles');
+            
             $table->string('lang')->default('ar');
             $table->boolean('active')->default(false);
 
