@@ -40,7 +40,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         $c = Category::find($category)->first();
-        // $c['vendor'] = $c->vendor;
+        $c['products'] = $c->products;
         return $c;
     }
 
