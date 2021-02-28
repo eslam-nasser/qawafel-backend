@@ -37,9 +37,8 @@ class VendorController extends Controller
      */
     public function show(Vendor $vendor)
     {
-        $v = Vendor::find($vendor)->first();
-        $v['products'] = $v->products;
-        return $v;
+        $vendor['products'] = $vendor->products;
+        return $vendor;
     }
 
     /**

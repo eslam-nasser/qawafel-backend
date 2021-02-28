@@ -14,8 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $data = Category::whereNull('parent')->with('children')->get();
+        // $data = Category::whereNull('parent')->with('children')->get();
         // $data = Category::with('parent')->get();
+        $data = Category::all();
         
         return $data;
     }
@@ -39,9 +40,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $c = Category::find($category)->first();
-        $c['products'] = $c->products;
-        return $c;
+        $category['products'] = $category->products;
+        return $category;
     }
 
     /**

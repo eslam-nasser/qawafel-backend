@@ -35,7 +35,6 @@ class ProductController extends Controller
                 'category_id' => $id
             ]);
         }
-
         return $new_product;
     }
 
@@ -47,9 +46,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $p = Product::find($product)->first();
-        $p['vendor'] = $p->vendor;
-        return $p;
+        $product['vendor'] = $product->vendor;
+        $product['categories'] = $product->categories;
+        return $product;
     }
 
     /**
