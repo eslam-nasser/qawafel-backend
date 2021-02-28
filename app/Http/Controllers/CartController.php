@@ -29,9 +29,18 @@ class CartController extends Controller
         // populate the product object in each cart item
         $items = $cart->items;
         foreach($items as $key => $item){
-            $items[$key]['product'] = Product::where('id', $item->product_id)->first();
+            $product = Product::where('id', $item->product_id)->first();
+            $items[$key]['product'] = $product;
+            $items[$key]['item_total'] = $product->price * $items[$key]->quantity;
         }
         $cart['items'] = $items;
+
+        // calculate cart totals
+        $total = 0;
+        foreach($items as $item){
+            $total += $item->item_total;
+        }
+        $cart['total'] = $total;
 
         return $cart;
     }
