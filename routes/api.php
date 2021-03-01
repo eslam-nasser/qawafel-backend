@@ -93,4 +93,7 @@ Route::group([
         'index', 'store'
     ]);
     Route::delete('/cart', 'CartController@destroy');
+    Route::apiResource('orders', 'OrderController')->only([
+        'index', 'store'
+    ]);
 });

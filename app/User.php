@@ -102,4 +102,9 @@ class User extends Authenticatable implements JWTSubject
 	{
 		return (strtolower($need_role)==strtolower($this->have_role->name)) ? true : false;
 	}
+
+    // Relations
+    public function cart() {
+        return $this->hasOne(Cart::class);
+    }
 }
