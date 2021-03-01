@@ -26,6 +26,9 @@ class CartController extends Controller
             $cart = $cart->first();
         }
 
+        // add user object to cart response
+        $cart['user'] = $cart->user;
+
         // populate the product object in each cart item
         $items = $cart->items;
         foreach($items as $key => $item){
