@@ -16,7 +16,6 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('cart_id');
             
             $table->string('firstname');
             $table->string('lastname');
@@ -27,10 +26,6 @@ class CreateOrdersTable extends Migration
             $table->string('city');
             $table->string('country');
             $table->string('notes');
-
-            $table->bigInteger('total');
-            $table->bigInteger('subtotal');
-            $table->bigInteger('taxs');
 
             $table->timestamps();
         });
