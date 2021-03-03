@@ -17,8 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('image')->default('https://i.imgur.com/GIJjSA8.jpg');
-            $table->unsignedBigInteger('parent')->nullable();
-            $table->foreign('parent')->references('id')->on('categories');
+            $table->foreignId('parent')->nullable();
             $table->timestamps();
         });
     }
