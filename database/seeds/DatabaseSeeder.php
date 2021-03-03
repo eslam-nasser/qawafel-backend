@@ -16,34 +16,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(RolesTableSeeder::class);
-
         if (App::environment() === 'production') {
             exit('Bruh! its production!');
         }
 
-        Role::create([
-            'id'            => 1,
-            'name'          => 'root',
-            'description'   => ''
-        ]);
-
-        Role::create([
-            'id'            => 2,
-            'name'          => 'admin',
-            'description'   => ''
-        ]);
-
-        Role::create([
-            'id'            => 3,
-            'name'          => 'pos',
-            'description'   => ''
-        ]);
-
-        Role::create([
-            'id'            => 4,
-            'name'          => 'vendor_admin',
-            'description'   => ''
-        ]);
+        $this->call(CategorySeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(ProductSeeder::class);
     }
 }
