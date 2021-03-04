@@ -10,12 +10,14 @@
 
 You can find the documentaiont for the API on [This online Postman docs](https://documenter.getpostman.com/view/5657786/TWDdiDme).
 
-## How to install 
+## How to install
+
 1- `git clone https://github.com/eslam-nasser/qawafel-backend.git`
-2- `cd qawafel-backend && php artisan migrate:refresh --seed`
-3- `php artisan serve`
-4- download and import the postman collection + env
-5- start testing
+2- create a new mysql db called `qawafel_backend` can change db credentials in `.env` file
+3- `cd qawafel-backend && php artisan migrate:refresh --seed`
+4- `php artisan serve`
+5- download and import the postman collection + env
+6- start testing
 
 ## Need Postman collection and environment variables?
 
