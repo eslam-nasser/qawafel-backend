@@ -23,5 +23,16 @@ class UserSeeder extends Seeder
             'phone' => 966,
             'role_id' => 2, // 2 is the role of an admin
         ]);
+
+        // Create a pos account
+        User::create([
+            'id' => 2,
+            'firstname' => 'POS #1',
+            'lastname' => '',
+            'email' => 'test2@mail.com',
+            'password' => Hash::make('123456'),
+            'phone' => 966,
+            'role_id' => 3, // 3 is the role of a pos
+        ]);
     }
 }
