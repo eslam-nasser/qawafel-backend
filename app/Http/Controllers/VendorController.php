@@ -14,7 +14,7 @@ class VendorController extends Controller
      */
     public function index()
     {
-        return Vendor::all();
+        return Vendor::with('products')->get();
     }
 
 

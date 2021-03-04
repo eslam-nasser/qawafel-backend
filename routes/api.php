@@ -81,19 +81,50 @@ Route::group([
 
 });
 
-// Resources
+// routes that needs admin role
 Route::group([
 	'middleware' => ['auth', 'roles'],
-	'roles' => ['admin', 'pos']
+	'roles' => ['admin']
 ], function () {
-    Route::apiResource('products', 'ProductController');
-    Route::apiResource('vendors', 'VendorController');
-    Route::apiResource('categories', 'CategoryController');
+    Route::apiResource('products', 'ProductController')->only([
+        'store', 'update', 'destroy'
+    ]);
+    Route::apiResource('vendors', 'VendorController')->only([
+        'store', 'update', 'destroy'
+    ]);
+    Route::apiResource('categories', 'CategoryController')->only([
+        'store', 'update', 'destroy'
+    ]);
+});
+
+// routes that needs pos role
+Route::group([
+	'middleware' => ['auth', 'roles'],
+	'roles' => ['pos']
+], function () {
     Route::apiResource('cart', 'CartController')->only([
         'index', 'store'
     ]);
     Route::delete('/cart', 'CartController@destroy');
+});
+
+// routes that needs pos OR admin roles
+Route::group([
+	'middleware' => ['auth', 'roles'],
+	'roles' => ['pos']
+], function () {
     Route::apiResource('orders', 'OrderController')->only([
         'index', 'store'
     ]);
 });
+
+// routes that are public
+Route::apiResource('products', 'ProductController')->only([
+    'index', 'show'
+]);
+Route::apiResource('vendors', 'VendorController')->only([
+    'index', 'show'
+]);
+Route::apiResource('categories', 'CategoryController')->only([
+    'index', 'show'
+]);
