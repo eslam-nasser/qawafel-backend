@@ -51,9 +51,10 @@ class OrderController extends Controller
                 'product_price' => $item->product->price,
                 'quantity' => $item->quantity,
             ]);
+            $item->delete();
         }
 
-        return $cart->items;
+        return $new_order;
     }
 
     /**

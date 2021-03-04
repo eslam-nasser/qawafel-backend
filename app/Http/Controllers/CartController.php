@@ -31,19 +31,33 @@ class CartController extends Controller
 
         // populate the product object in each cart item
         $items = $cart->items;
+        $tax_rate = 0.15; // this should be a global configs stored in DB
         foreach($items as $key => $item){
             $product = Product::where('id', $item->product_id)->first();
             $items[$key]['product'] = $product;
-            $items[$key]['item_total'] = $product->price * $items[$key]->quantity;
+            $items[$key]['item_subtotal'] = $product->price * $items[$key]->quantity;
+            $items[$key]['item_total_taxs'] = $product->price * $items[$key]->quantity * $tax_rate;
+            $items[$key]['item_total'] = $items[$key]['item_subtotal'] + $items[$key]['item_total_taxs'];
         }
         $cart['items'] = $items;
 
         // calculate cart totals
         $total = 0;
+        $subtotal = 0;
+        $tax_total = 0;
         foreach($items as $item){
-            $total += $item->item_total;
+            $item_total = $item->item_subtotal;
+            $per_item_tax = $item_total * $tax_rate;
+
+            $subtotal += $item_total;
+            $tax_total += $per_item_tax;
+            $total += $item_total + $per_item_tax;
         }
-        $cart['total'] = $total;
+        $cart['totals'] = [
+            'total' => $total,
+            'subtotal' => $subtotal,
+            'tax_total' => $tax_total
+        ];
 
         return $cart;
     }
